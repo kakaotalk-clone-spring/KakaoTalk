@@ -1,0 +1,17 @@
+address: localhost
+port: 8080
+spring:
+  data:
+    mongodb:
+      url: mongodb://devlabs123:devlabs123@kakaotalk.cluster-cezlsuk1t6pe.ap-northeast-2.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
+    redis:
+      timeout: 600
+      host: message-broker-0001-001.ykbcyh.0001.apn2.cache.amazonaws.com
+      port: 6379
+  session:
+    storage-type: redis
+  jwt:
+    secret: devlabs-secret
+
+server:
+  port: 8080
