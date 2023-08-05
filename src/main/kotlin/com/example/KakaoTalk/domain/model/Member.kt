@@ -10,15 +10,15 @@ import java.time.LocalDateTime
 data class Member(
 
     @Id
-    val id : String? ="",
-    val name : String? = "",
-    val password : String? = "",
-    val profile_img : String,
+    val id : String,
+    val name : String,
+    val password : String,
+    val profile_img : String?,
     val friends : MutableList<String> = mutableListOf(),
     @CreatedDate
-    var createdAt: LocalDateTime? = null,
+    var createdAt: LocalDateTime,
     @LastModifiedDate
-    var updatedAt: LocalDateTime? = null
+    var updatedAt: LocalDateTime
 
 ) {
     fun addFriend(friendId: String) {

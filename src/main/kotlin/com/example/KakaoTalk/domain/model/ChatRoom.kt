@@ -10,12 +10,12 @@ import java.time.LocalDateTime
 data class ChatRoom(
 
     @Indexed(unique = true)
-    val id : String? = null,
-    val name : String? = "",
+    val id : String,
+    val name : String,
     val members : MutableList<String> = mutableListOf(),
     @CreatedDate
-    var createdAt: LocalDateTime? = null,
+    var createdAt: LocalDateTime,
     @LastModifiedDate
-    var updatedAt: LocalDateTime? = null
+    var updatedAt: LocalDateTime
 
 )

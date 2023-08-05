@@ -10,12 +10,12 @@ import java.time.LocalDateTime
 data class Message(
 
     @Indexed(unique = true)
-    val id : String? = null,
-    val senderId : String? = "",
-    val receiverId : String? = "",
-    val roomId : String? = "",
-    val content : String? = "",
+    val id : String,
+    val senderId : String,
+    val receiverId : String,
+    val roomId : String,
+    val content : String,
     @CreatedDate
-    var createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime
 
     )
