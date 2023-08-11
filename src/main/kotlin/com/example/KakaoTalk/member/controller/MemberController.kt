@@ -1,5 +1,6 @@
 package com.example.KakaoTalk.member.controller
 
+import com.example.KakaoTalk.common.response.BaseResponse
 import com.example.KakaoTalk.member.dto.LoginDto
 import com.example.KakaoTalk.member.dto.RegisterDto
 import com.example.KakaoTalk.member.service.MemberService
@@ -16,28 +17,28 @@ import org.springframework.web.bind.annotation.RestController
 class MemberController(private val memberService: MemberService) {
 
     @PostMapping("/login")
-    fun login(session: HttpSession, @RequestBody loginDto: LoginDto): ResponseEntity<String> {
+    fun login(session: HttpSession, @RequestBody loginDto: LoginDto): BaseResponse<String> {
         val sessionId = memberService.login(session, loginDto)
-        return ResponseEntity.ok(sessionId)
+        return BaseResponse(sessionId)
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody registerDto: RegisterDto): ResponseEntity<String> {
+    fun register(@RequestBody registerDto: RegisterDto): BaseResponse<String> {
         memberService.register(registerDto)
-        return ResponseEntity.ok(registerDto.id)
+        return BaseResponse(registerDto.id)
     }
 
     @PostMapping("/logout")
-    fun logout(session:HttpSession) : ResponseEntity<String> {
+    fun logout(session:HttpSession) : BaseResponse<Unit> {
         memberService.logout(session)
-        return ResponseEntity.ok().build()
+        return BaseResponse(Unit)
     }
 
     @GetMapping("/test")
-    fun test(session: HttpSession) : ResponseEntity<String>{
+    fun test(session: HttpSession) : BaseResponse<String>{
         //val maybeMember = session.getAttribute(LOGIN_USER)
         //return ResponseEntity.ok((maybeMember as Member).id)
-        return ResponseEntity.ok("인가 성공")
+        return BaseResponse("인가 성공")
     }
 
 }
