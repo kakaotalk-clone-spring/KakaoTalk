@@ -1,6 +1,8 @@
 package com.example.KakaoTalk.common.handler
 
 import com.example.KakaoTalk.common.exception.ErrorResponse
+import com.example.KakaoTalk.common.response.BaseResponse
+import com.example.KakaoTalk.common.response.BaseResponseStatus
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -17,7 +19,7 @@ class CustomAuthenticationEntryPoint(private val objectMapper: ObjectMapper) : A
         if (response != null) {
             response.contentType = "text/plain;charset=UTF-8"
             response.status = HttpServletResponse.SC_UNAUTHORIZED
-            response.writer.write(objectMapper.writeValueAsString(ErrorResponse("로그인 인증 정보가 존재하지 않습니다.")))
+            response.writer.write(objectMapper.writeValueAsString(BaseResponse<Unit>(BaseResponseStatus.AUTHENTICATION_ERROR)))
             response.writer.flush()
             response.writer.close()
         }

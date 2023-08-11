@@ -1,6 +1,8 @@
 package com.example.KakaoTalk.common.handler
 
 import com.example.KakaoTalk.common.exception.ErrorResponse
+import com.example.KakaoTalk.common.response.BaseResponse
+import com.example.KakaoTalk.common.response.BaseResponseStatus
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -17,7 +19,7 @@ class CustomAccessDeniedHandler (private val objectMapper: ObjectMapper) : Acces
         if (response != null) {
             response.contentType = "test/plain;charset=UTF-8"
             response.status = HttpServletResponse.SC_FORBIDDEN
-            response.writer.write(objectMapper.writeValueAsString(ErrorResponse("API 호출에 필요한 권한이 없습니다.")))
+            response.writer.write(objectMapper.writeValueAsString(BaseResponse<Unit>(BaseResponseStatus.ACCESS_ERROR)))
             response.writer.flush()
             response.writer.close()
         }
