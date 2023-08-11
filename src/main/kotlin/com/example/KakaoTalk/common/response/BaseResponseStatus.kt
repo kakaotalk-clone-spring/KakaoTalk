@@ -3,10 +3,10 @@ package com.example.KakaoTalk.common.response
 import org.springframework.http.HttpStatus
 
 enum class BaseResponseStatus(
-    val isSuccess:Boolean,
-    val code:Int,
-    val message:String
-) {
+    override val isSuccess: Boolean,
+    override val code: Int,
+    override val message: String
+) : ResponseStatus {
 
     //200~ : 요청 성공
     SUCCESS(true, HttpStatus.OK.value(), "요청에 성공했습니다.")

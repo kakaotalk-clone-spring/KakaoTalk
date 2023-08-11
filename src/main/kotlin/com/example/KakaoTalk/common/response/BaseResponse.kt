@@ -25,7 +25,7 @@ class BaseResponse<T>(
     )
 
     //요청에 실패한 경우
-    constructor(status: BaseResponseStatus) : this(
+    constructor(status: ResponseStatus) : this(
         status.isSuccess,
         status.code,
         status.message,
