@@ -21,6 +21,7 @@ data class Member(
     val name: String,
     val password: String,
     val profile_img: String? = null,
+    val background_img: String?,
     val friends: MutableList<String> = mutableListOf(),
     val roles: String,
     @CreatedDate
@@ -56,6 +57,7 @@ data class Member(
                 name = registerDto.name,
                 password = encryptedPassword,
                 profile_img = registerDto.profile_img,
+                background_img = registerDto.background_img,
                 roles = ROLE_USER,
                 createdAt = null,
                 updatedAt = null
