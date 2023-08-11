@@ -1,4 +1,6 @@
 package com.example.KakaoTalk.common.exception
 
-class CustomException(val errorCode: ErrorCode) : RuntimeException() {
+import com.example.KakaoTalk.common.response.ResponseStatus
+
+class CustomException(val errorCode: ResponseStatus) : RuntimeException() {
 }

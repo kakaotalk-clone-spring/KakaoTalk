@@ -1,12 +1,12 @@
 package com.example.KakaoTalk.member.service
 
 import com.example.KakaoTalk.common.exception.CustomException
-import com.example.KakaoTalk.common.exception.ErrorCode
 import com.example.KakaoTalk.common.util.LOGIN_USER
 import com.example.KakaoTalk.member.repository.MemberRepository
 import com.example.KakaoTalk.member.domain.Member
 import com.example.KakaoTalk.member.dto.LoginDto
 import com.example.KakaoTalk.member.dto.RegisterDto
+import com.example.KakaoTalk.member.exception.LoginResponseStatus
 import jakarta.servlet.http.HttpSession
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -17,10 +17,10 @@ class MemberService (private val memberRepo: MemberRepository, private val passw
     fun login(session: HttpSession, loginDto: LoginDto) : String {
         //회원 정보 가져오기
         val member = memberRepo.findById(loginDto.id)
-            .orElseThrow { CustomException(ErrorCode.LOGIN_DENIED) }
+            .orElseThrow { CustomException(LoginResponseStatus.AUTHENTICATION_ERROR) }
         //비밀번호 검증
         if(!member.isPasswordMatch(passwordEncoder, loginDto.password)) {
-            throw CustomException(ErrorCode.LOGIN_DENIED)
+            throw CustomException(LoginResponseStatus.ACCESS_ERROR)
         }
         session.setAttribute(LOGIN_USER, member)
         return session.id

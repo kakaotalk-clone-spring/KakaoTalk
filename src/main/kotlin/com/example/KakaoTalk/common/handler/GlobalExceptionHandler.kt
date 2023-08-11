@@ -1,6 +1,7 @@
 package com.example.KakaoTalk.common.handler
 import com.example.KakaoTalk.common.response.BaseResponse
 import com.example.KakaoTalk.common.response.BaseResponseStatus
+import com.example.KakaoTalk.common.response.ResponseStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
@@ -12,7 +13,7 @@ class GlobalExceptionHandler {
         return handleExceptionInternal(BaseResponseStatus.SERVER_ERROR)
     }
 
-    private fun handleExceptionInternal(status: BaseResponseStatus): BaseResponse<Unit> {
+    private fun handleExceptionInternal(status: ResponseStatus): BaseResponse<Unit> {
         return BaseResponse(status)
     }
 

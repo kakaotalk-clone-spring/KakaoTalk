@@ -1,8 +1,7 @@
 package com.example.KakaoTalk.common.handler
 
-import com.example.KakaoTalk.common.exception.ErrorResponse
 import com.example.KakaoTalk.common.response.BaseResponse
-import com.example.KakaoTalk.common.response.BaseResponseStatus
+import com.example.KakaoTalk.member.exception.LoginResponseStatus
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -19,7 +18,7 @@ class CustomAccessDeniedHandler (private val objectMapper: ObjectMapper) : Acces
         if (response != null) {
             response.contentType = "test/plain;charset=UTF-8"
             response.status = HttpServletResponse.SC_FORBIDDEN
-            response.writer.write(objectMapper.writeValueAsString(BaseResponse<Unit>(BaseResponseStatus.ACCESS_ERROR)))
+            response.writer.write(objectMapper.writeValueAsString(BaseResponse<Unit>(LoginResponseStatus.ACCESS_ERROR)))
             response.writer.flush()
             response.writer.close()
         }
