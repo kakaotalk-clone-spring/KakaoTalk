@@ -1,6 +1,11 @@
 address: localhost
 port: 8080
+
 spring:
+  freemarker:
+    cache: false
+    template-loader-path: classpath:/templates
+    suffix: .ftlh
   data:
     mongodb:
       url: mongodb://devlabs123:devlabs123@kakaotalk.cluster-cezlsuk1t6pe.ap-northeast-2.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
@@ -12,8 +17,3 @@ spring:
     password: devlabs123456789@
   session:
     storage-type: redis
-  jwt:
-    secret: devlabs-secret
-
-server:
-  port: 8080

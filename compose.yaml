@@ -1,1 +1,11 @@
+version: "3"
 services:
+  webapp:
+    platform: linux/amd64
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        - JAR_FILE=./build/libs/*.jar
+    ports:
+      - 8080:8080
