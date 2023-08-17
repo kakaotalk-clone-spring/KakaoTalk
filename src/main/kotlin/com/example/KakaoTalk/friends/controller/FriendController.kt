@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/friends")
+@RequestMapping("/api/friends")
 class FriendController (
     private val friendService: FriendService
         ) {
