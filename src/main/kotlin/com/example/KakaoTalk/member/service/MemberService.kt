@@ -35,13 +35,4 @@ class MemberService (private val memberRepo: MemberRepository, private val passw
         memberRepo.save(member)
     }
 
-    fun addFriendToUser(memberId: String, friendId: String) : Member? {
-        val member = memberRepo.findById(memberId).orElse(null)
-        if (member != null) {
-            member.addFriend(friendId)
-            memberRepo.save(member)
-        }
-        return member
-    }
-
 }

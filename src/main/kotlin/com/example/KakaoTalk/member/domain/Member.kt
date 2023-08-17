@@ -6,6 +6,7 @@ import com.example.KakaoTalk.member.dto.RegisterDto
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -17,23 +18,19 @@ import java.util.StringTokenizer
 data class Member(
 
     @Id
-    val id: String,
-    val name: String,
-    val password: String,
+    val id: String = "",
+    val name: String = "",
+    val password: String = "",
     val profile_img: String? = null,
-    val background_img: String?,
-    val friends: MutableList<String> = mutableListOf(),
-    val roles: String,
+    val background_img: String? = null,
+    val roles: String = "",
     @CreatedDate
-    val createdAt: LocalDateTime?,
+    val createdAt: LocalDateTime? = null,
     @LastModifiedDate
-    var updatedAt: LocalDateTime?
+    var updatedAt: LocalDateTime? = null
 
 
 ) : java.io.Serializable {
-    fun addFriend(friendId: String) {
-        if (!friends.contains(friendId)) friends.add(friendId)
-    }
 
     fun isPasswordMatch(passwordEncoder: PasswordEncoder, password: String): Boolean {
         return passwordEncoder.matches(password, this.password)
@@ -59,8 +56,6 @@ data class Member(
                 profile_img = registerDto.profile_img,
                 background_img = registerDto.background_img,
                 roles = ROLE_USER,
-                createdAt = null,
-                updatedAt = null
             )
         }
     }
