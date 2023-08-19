@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/api/members")
 class MemberController(
     private val memberService: MemberService
     , private val memberRepository: MemberRepository
