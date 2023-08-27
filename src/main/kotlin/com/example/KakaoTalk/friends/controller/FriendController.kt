@@ -25,6 +25,12 @@ class FriendController (
         return BaseResponse(Unit)
     }
 
+    @GetMapping("/{friendId}")
+    fun getFriend(httpSession: HttpSession, @PathVariable friendId: String) : BaseResponse<Friend>{
+        val friend = friendService.findFriend(friendId)
+        return BaseResponse(friend)
+    }
+
     @GetMapping("")
     fun findAllFriends(httpSession: HttpSession) : BaseResponse<List<Friend>> {
         val memberId = (httpSession.getAttribute(LOGIN_USER) as Member).id

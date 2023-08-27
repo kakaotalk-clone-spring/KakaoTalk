@@ -32,4 +32,11 @@ class FriendService (
 
     }
 
+    //친구 상세 조회
+    fun findFriend(friendId: String): Friend {
+        val member = memberRepository.findById(friendId).get()
+        return Friend(friendId, member.name, member.profile_img, member.background_img)
+    }
+
+
 }
