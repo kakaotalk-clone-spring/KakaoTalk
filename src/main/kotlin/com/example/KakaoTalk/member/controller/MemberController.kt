@@ -2,19 +2,20 @@ package com.example.KakaoTalk.member.controller
 
 import com.example.KakaoTalk.common.response.BaseResponse
 import com.example.KakaoTalk.member.dto.LoginDto
+import com.example.KakaoTalk.member.dto.MemberDto
 import com.example.KakaoTalk.member.dto.RegisterDto
+import com.example.KakaoTalk.member.repository.MemberRepository
 import com.example.KakaoTalk.member.service.MemberService
 import jakarta.servlet.http.HttpSession
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/member")
-class MemberController(private val memberService: MemberService) {
+@RequestMapping("/api/members")
+class MemberController(
+    private val memberService: MemberService
+    , private val memberRepository: MemberRepository
+    ) {
 
     @PostMapping("/login")
     fun login(session: HttpSession, @RequestBody loginDto: LoginDto): BaseResponse<String> {
@@ -39,6 +40,13 @@ class MemberController(private val memberService: MemberService) {
         //val maybeMember = session.getAttribute(LOGIN_USER)
         //return ResponseEntity.ok((maybeMember as Member).id)
         return BaseResponse("인가 성공")
+    }
+
+    @GetMapping("/{member_id}")
+    fun getMember(@PathVariable member_id: String) : BaseResponse<MemberDto> {
+        val member = memberRepository.findById(member_id).get()
+        val memberDto = MemberDto(member.id, member.name, member.profile_img, member.background_img)
+        return BaseResponse(memberDto)
     }
 
 }
