@@ -1,1 +1,54 @@
+version: "3"
+
+networks:
+  spring-network:
+    external: true
+    driver: bridge
+
 services:
+  app:
+    platform: linux/amd64
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        - JAR_FILE=./build/libs/*.jar
+    ports:
+      - 8080:8080
+    networks:
+      - spring-network
+    depends_on:
+      - mongodb
+      - redis
+    restart: always
+  redis:
+    image: redis:alpine
+    container_name: redis_boot
+    command: redis-server --port 6379
+    hostname: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - spring-network
+    volumes:
+      - redis:/data
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    command: ["--bind_ip", "0.0.0.0"]
+    env_file:
+      - .mongo_env
+    ports:
+      - "27017:27017"
+    networks:
+      - spring-network
+    volumes:
+      - mongodb:/data
+
+volumes:
+  redis:
+    external: true
+  mongodb:
+    external: true
