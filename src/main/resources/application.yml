@@ -1,19 +1,20 @@
 address: localhost
 port: 8080
-
 spring:
-  freemarker:
-    cache: false
-    template-loader-path: classpath:/templates
-    suffix: .ftlh
   data:
     mongodb:
-      url: mongodb://devlabs123:devlabs123@kakaotalk.cluster-cezlsuk1t6pe.ap-northeast-2.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
-  redis:
-    timeout: 600
-    host: message-broker.ykbcyh.ng.0001.apn2.cache.amazonaws.com
-    port: 6379
-    username: root
-    password: devlabs123456789@
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      database: kakaotalk
+      username: root
+      password: root
+    redis:
+      timeout: 600
+      host: redis
+      port: 6379
   session:
     storage-type: redis
+
+server:
+  port: 8080
