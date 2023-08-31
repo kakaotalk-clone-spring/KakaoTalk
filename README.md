@@ -6,10 +6,7 @@
 
 ### Docker
 
-- build: `make build-dev`
-- run: `make run`
-- **build + run: `make dev-up`**
-
-### Jar
-
-- build: `make bootjar`
+- Create Spring Network : `docker network create spring-network`
+- Create MongoDB Redis : `docker volume create redis`
+- Create MongoDB Volume : `docker volume create mongodb`
+- RUN : `docker-compose up -d`
