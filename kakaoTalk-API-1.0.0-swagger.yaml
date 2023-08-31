@@ -1,0 +1,473 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Chatting-API
+  description: ''
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ysndy/Chatting-API/1.0.0
+
+paths:
+  /chat/{room_id}:
+    get:
+      tags:
+        - Chat
+      summary: 특정 채팅방의 메시지 조회.
+      description: Connect to the WebSocket server for real-time chat using the provided room ID.
+      parameters:
+        - name: room_id
+          in: path
+          required: true
+          description: Unique identifier for the chat room.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '404':
+          description: Room Not Found - The provided room ID does not exist.
+        '500':
+          description: Internal Server Error - An error occurred while connecting.
+    post:
+      tags:
+        - Chat
+      summary: 특정 채팅방에 메시지 전송.
+      description: Send a chat message to the specified room.
+      parameters:
+        - name: room_id
+          in: path
+          required: true
+          description: Unique identifier for the chat room.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: Unique identifier for the user sending the message.
+                message:
+                  type: string
+                  description: The content of the chat message.
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Bad Request - Invalid input.
+        '404':
+          description: Room Not Found - The provided room ID does not exist.
+          
+  /chat/ws:
+    get:
+      tags: 
+        - Chat
+      summary: 채팅 웹소켓 연결
+      description: 채팅방에 WebSocket을 통해 연결합니다.
+      parameters:
+        - name: room_id
+          in: query
+          required: true
+          description: 채팅방 ID
+          schema:
+            type: string
+        - name: user_id
+          in: query
+          required: true
+          description: 사용자 ID
+          schema:
+            type: string
+      responses:
+        '101':
+          description: WebSocket 연결 성공
+          
+  /rooms/{room_id}:
+    get:
+      tags:
+        - Rooms
+      summary: room_id 채팅방의 정보.
+      parameters:
+        - name: room_id
+          in: path
+          required: true
+          description: 채팅방 id.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chat-room'
+                
+  /rooms:
+  
+    get:
+      tags:
+        - Rooms
+      summary: 채팅방 목록.
+      parameters: 
+        - name: member_id
+          in: query
+          required: false
+          description: 회원 id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chat-room'
+    post:
+      tags:
+        - Rooms
+      summary: 채팅방을 생성.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 채팅방 이름
+                  
+                user:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MemberDto'
+                  
+      responses:
+        '200':
+          description: Successful operation. Room created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chat-room'
+                  
+        '400':
+          description: Bad Request - Invalid input.
+
+  /api/members/{member_id}/rooms:
+    parameters:
+      - name: member_id
+        in: path
+        required: true
+        description: 대상 멤버.
+        schema:
+          type: string
+        
+  /api/friends:
+    get:
+      tags:
+        - Friends
+      summary: 친구 목록 조회.
+      responses:
+        '200':
+          description: OK.
+          content:
+            applicaiton/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                    description: 성공 여부.
+                  code:
+                    type: integer
+                    description: 상태 코드.
+                  message:
+                    type: string
+                    description: 메시지.
+                  result:
+                    type: array
+                    items:
+                      $ref : '#/components/schemas/Friend'
+                      
+  /api/friends/{friend_id}:
+    parameters:
+    - name: friend_id
+      in: path
+      required: true
+      description: 대상 멤버.
+      schema:
+        type: string
+        
+    get:
+      tags: 
+        - Friends
+      summary: 친구 상세 조회.
+      responses:
+        '200':
+          description: OK.
+          content:
+            applicaiton/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                    description: 성공 여부.
+                  code:
+                    type: integer
+                    description: 상태 코드.
+                  message:
+                    type: string
+                    description: 메시지.
+                  result:
+                      $ref: '#/components/schemas/Friend'
+                  
+      
+    post:
+      tags:
+        - Friends
+      summary: 친구 추가.
+      responses:
+        '200':
+          description: OK.
+          content:
+            applicaiton/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                    description: 성공 여부.
+                  code:
+                    type: integer
+                    description: 상태 코드.
+                  message:
+                    type: string
+                    description: 메시지.
+                    
+                 
+  /api/members/{member_id}:
+    get:
+      parameters: 
+        - name: member_id
+          in: path
+          required: true
+          description: 대상 멤버.
+          schema:
+            type: string
+        
+      tags:
+        - Members
+      summary: 사용자 상세 조회.
+      responses:
+        '200':
+          description: OK.
+          content:
+            applicaiton/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                    description: 성공 여부.
+                  code:
+                    type: integer
+                    description: 상태 코드.
+                  message:
+                    type: string
+                    description: 메시지.
+                  result:
+                      $ref: '#/components/schemas/MemberDto'
+                      
+  /api/members/login:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 회원가입 멤버의 이메일.
+                password:
+                  type: string
+                  description: 회원가입 멤버의 비밀번호.
+      tags:
+        - Members
+      summary: 로그인.
+      responses:
+        '200':
+          description: OK.
+          content:
+            applicaiton/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                    description: 성공 여부.
+                  code:
+                    type: integer
+                    description: 상태 코드.
+                  message:
+                    type: string
+                    description: 메시지.
+                  result:
+                    type: integer
+                    description: 세션 ID.
+  /api/members/logout:
+    get:
+      tags:
+        - Members
+      summary: 로그아웃.
+      responses:
+        '200':
+          description: OK.
+          content:
+            applicaiton/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                    description: 성공 여부.
+                  code:
+                    type: integer
+                    description: 상태 코드.
+                  message:
+                    type: string
+                    description: 메시지.
+  
+  /api/members/register:
+    post:
+      tags:
+        - Members
+      summary: 회원 가입.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 회원가입 멤버의 이메일.
+                password:
+                  type: string
+                  description: 회원가입 멤버의 비밀번호.
+                
+      responses:
+        '200' :
+          description: OK.
+          content:
+            applicaiton/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                    description: 성공 여부.
+                  code:
+                    type: integer
+                    description: 상태 코드.
+                  message:
+                    type: string
+                    description: 메시지.
+                  result:
+                    type: integer
+                    description: 회원 고유 ID.
+
+
+components:
+  schemas:
+  
+    Friend:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        profile_img:
+          type: string
+        background_img:
+          type: string
+  
+    MemberDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+        password:
+          type: string
+        username:
+          type: string
+        profileImg:
+          type: string
+        friends:
+          type: array
+          items:
+            type: integer
+  
+    Member:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+        password:
+          type: string
+        username:
+          type: string
+        profileImg:
+          type: string
+        friends:
+          type: array
+          items:
+            type: integer
+        
+    Chat-room:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        users:
+          type: array
+          items:
+            type: integer
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        senderId:
+          type: integer
+        roomId:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: integer
