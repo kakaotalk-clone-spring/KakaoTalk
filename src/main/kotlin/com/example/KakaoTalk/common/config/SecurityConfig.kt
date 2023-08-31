@@ -73,7 +73,7 @@ class SecurityConfig {
             //Request 에 대한 접근 설정
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/member/login", "/member/register")
+                    .requestMatchers("/api/members/login", "/api/members/register")
                     .permitAll()
                     .anyRequest().hasAnyRole("USER")
             }
