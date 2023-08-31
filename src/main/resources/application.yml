@@ -1,20 +1,20 @@
-address: localhost
-port: 8080
 spring:
+  application:
+    name: "kakaotalk"
   data:
     mongodb:
-      host: localhost
+      host: "127.0.0.1"
       port: 27017
-      authentication-database: admin
-      database: kakaotalk
-      username: root
-      password: root
+      authentication-database: "admin"
+      database: "kakaotalk"
+      username: "root"
+      password: "root"
     redis:
       timeout: 600
-      host: redis
+      host: "127.0.0.1"
       port: 6379
   session:
-    storage-type: redis
+    storage-type: "redis"
 
 server:
   port: 8080

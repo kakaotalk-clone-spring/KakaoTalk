@@ -13,7 +13,6 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws/chat").setAllowedOriginPatterns("*")
                 .withSockJS();
-//        registry.setErrorHandler(stompInterceptorErrorHandler);
     }
 
     override fun configureMessageBroker(config: MessageBrokerRegistry) {

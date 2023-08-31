@@ -25,7 +25,6 @@ services:
     image: redis:alpine
     container_name: redis_boot
     command: redis-server --port 6379
-    hostname: redis
     restart: always
     ports:
       - "6379:6379"
