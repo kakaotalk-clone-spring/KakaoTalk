@@ -4,7 +4,7 @@ port: 8080
 spring:
   data:
     mongodb:
-      host: localhost
+      host: mongodb
       port: 27017
       authentication-database: admin
       database: kakaotalk
@@ -12,7 +12,7 @@ spring:
       password: root
     redis:
       timeout: 600
-      host: localhost
+      host: redis
       port: 6379
   session:
     storage-type: redis
