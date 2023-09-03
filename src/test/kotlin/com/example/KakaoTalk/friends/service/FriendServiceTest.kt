@@ -5,14 +5,14 @@ import com.example.KakaoTalk.friends.domain.FriendShip
 import com.example.KakaoTalk.friends.repository.FriendRepository
 import com.example.KakaoTalk.member.domain.Member
 import com.example.KakaoTalk.member.repository.MemberRepository
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
 import java.util.*
 
 
-@SpringBootTest
+@SpringBootTest(properties = ["spring.config.location=classpath:application-test.yml"])
 internal class FriendServiceTest {
 
     private val friendRepository = mock(FriendRepository::class.java)
@@ -40,8 +40,7 @@ internal class FriendServiceTest {
         val friendId2 = "friend2"
 
         val friendShips = listOf(
-            FriendShip(memberId, friendId1)
-            , FriendShip(memberId, friendId2)
+            FriendShip(memberId, friendId1), FriendShip(memberId, friendId2)
         )
 
         val member1 = Member(id = friendId1, name = "friend1")

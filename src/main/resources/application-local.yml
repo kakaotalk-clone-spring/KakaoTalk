@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: local
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: kakaotalk
+    redis:
+      timeout: 600
+      host: redis
+      port: 6379
+  session:
+    storage-type: redis
+server:
+  port: 8080

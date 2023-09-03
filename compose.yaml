@@ -1,4 +1,5 @@
 version: "3"
+
 networks:
   spring-network:
     external: true
@@ -10,8 +11,6 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-      args:
-        - JAR_FILE=./build/libs/*.jar
     ports:
       - 8080:8080
     networks:
@@ -20,6 +19,12 @@ services:
       - mongodb
       - redis
     restart: always
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=kakaotalk
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
   redis:
     image: redis:alpine
     container_name: redis_boot
@@ -35,12 +40,9 @@ services:
     image: mongo
     container_name: mongodb
     restart: always
-    command: ["--bind_ip", "0.0.0.0"]
+    command: ["mongod", "--bind_ip", "0.0.0.0"]
     environment:
-      MONGO_HOST: localhost
       MONGO_PORT: 27017
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
       MONGO_INITDB_DATABASE: kakaotalk
     ports:
       - "27017:27017"

@@ -4,6 +4,11 @@
 
 ## 실행 방법
 
+### Spring Build
+
+- Build : `./gradlew build`
+- Clean Build : `./gradlew clean build`
+
 ### Docker
 
 - Create Spring Network : `docker network create spring-network`

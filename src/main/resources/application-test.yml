@@ -1,15 +1,11 @@
-address: localhost
-port: 8080
-
 spring:
+  profiles:
+    active: test
   data:
     mongodb:
       host: localhost
       port: 27017
-      authentication-database: admin
       database: kakaotalk
-      username: root
-      password: root
     redis:
       timeout: 600
       host: localhost

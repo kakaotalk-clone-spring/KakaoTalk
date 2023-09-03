@@ -8,13 +8,12 @@ import com.example.KakaoTalk.member.dto.RegisterDto
 import com.example.KakaoTalk.member.repository.MemberRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.mock.web.MockHttpSession
 import org.springframework.security.crypto.password.PasswordEncoder
 
-@SpringBootTest
+@SpringBootTest(properties = ["spring.config.location=classpath:application-test.yml"])
 internal class MemberServiceTest {
 
     private val memberRepository = mock(MemberRepository::class.java)
