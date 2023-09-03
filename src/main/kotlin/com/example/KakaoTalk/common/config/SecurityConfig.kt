@@ -24,7 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class SecurityConfig {
 
     @Bean
-    fun corsConfigurationSource():CorsConfigurationSource {
+    fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowCredentials = true;
         configuration.addAllowedOrigin("*")
@@ -53,23 +53,28 @@ class SecurityConfig {
     }
 
     @Bean
-    fun userAuthenticationFilter() : MemberAuthenticationFilter {
+    fun userAuthenticationFilter(): MemberAuthenticationFilter {
         return MemberAuthenticationFilter()
     }
 
     @Bean
-    fun authenticationEntryPoint(objectMapper:ObjectMapper):AuthenticationEntryPoint {
+    fun authenticationEntryPoint(objectMapper: ObjectMapper): AuthenticationEntryPoint {
         return CustomAuthenticationEntryPoint(objectMapper)
     }
 
     @Bean
-    fun accessDeniedHandler(objectMapper: ObjectMapper):AccessDeniedHandler {
+    fun accessDeniedHandler(objectMapper: ObjectMapper): AccessDeniedHandler {
         return CustomAccessDeniedHandler(objectMapper)
     }
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
+            //cors 설정
+            .cors {
+                it.configurationSource(corsConfigurationSource())
+            }
+
             //Request 에 대한 접근 설정
             .authorizeHttpRequests {
                 it
@@ -87,7 +92,7 @@ class SecurityConfig {
             .logout { it.disable() }
 
             // 세션 설정
-            .sessionManagement{
+            .sessionManagement {
                 it
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
@@ -100,13 +105,11 @@ class SecurityConfig {
             }
 
             //레디스 세션 설정
-            .addFilterBefore(userAuthenticationFilter(),
-                UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(
+                userAuthenticationFilter(),
+                UsernamePasswordAuthenticationFilter::class.java
+            )
 
-            //cors 설정
-            .cors{
-                it.configurationSource(corsConfigurationSource())
-            }
         return http.build()
     }
 
